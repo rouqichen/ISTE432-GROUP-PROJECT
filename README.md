@@ -27,6 +27,8 @@ Our project is an application to let users track and sort their full collection 
 - At minimum, title and platform (where/how it is owned) must be entered for any given media
 
 ## Technologies Used
+- JAVA
+- MYSQL
 
 ## Design Patterns
 

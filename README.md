@@ -14,17 +14,17 @@ Our project is an application to let users track and sort their full collection 
 
 ## Project Requirements
 
-Users logging in with username and password
-Users can easily add media they own to their library
-Users can search their library
-Digitally owned media should link to itself on the storefront the user owns it from
-Movies they do not own can be recommended for purchase
+1. Users logging in with username and password
+2. Users can easily add media they own to their library
+3. Users can search their library
+4. Digitally owned media should link to itself on the storefront the user owns it from
+5. Movies they do not own can be recommended for purchase
 
 ## Business Rules
 
-Users must create an account/login before they can use the application
-A user must add media to their library before it can be searched
-At minimum, title and platform (where/how it is owned) must be entered for any given media
+- Users must create an account/login before they can use the application
+- A user must add media to their library before it can be searched
+- At minimum, title and platform (where/how it is owned) must be entered for any given media
 
 ## Technologies Used
 

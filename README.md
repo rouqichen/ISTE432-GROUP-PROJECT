@@ -32,6 +32,8 @@ Our project is an application to let users track and sort their full collection 
 
 ### Template Method
 The Template Method pattern will be used to reduce redundancy in saving different types of media. A master save method will exist in the Media superclass which will call component methods that can be overridden by Movie and TVShow subclasses. Common parts, such as preview images, genre, title, description, etc. can stay in the superclass. Differences, such as saving a rating that must exist either in the MPAA rating system or the FCC's TV rating system, or core details such as a movie's run time or the number of a show's seasons and episodes in each season, can be done in those subclasses overriding a method intended for that use. See below example:
+[Diagram.pdf](https://github.com/rouqichen/ISTE432-GROUP-PROJECT/files/6093527/Diagram.pdf)
+
 
 ```
 public class Media {

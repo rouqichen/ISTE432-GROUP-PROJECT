@@ -31,11 +31,58 @@ Our project is an application to let users track and sort their full collection 
 ## Design Patterns
 
 ### Template Method
-The Template Method pattern will be used to reduce redundancy in saving different types of media. A master save method will exist in the Media superclass which will call component methods that can be overridden by Movie and TVShow subclasses. Common parts, such as preview images, genre, title, description, etc. can stay in the superclass, but differences, such as saving a movie's run time, or the number of a show's seasons and episodes in each season can be done in those subclasses overriding a method intended for that use. See below example:
+The Template Method pattern will be used to reduce redundancy in saving different types of media. A master save method will exist in the Media superclass which will call component methods that can be overridden by Movie and TVShow subclasses. Common parts, such as preview images, genre, title, description, etc. can stay in the superclass. Differences, such as saving a rating that must exist either in the MPAA rating system or the FCC's TV rating system, or core details such as a movie's run time or the number of a show's seasons and episodes in each season, can be done in those subclasses overriding a method intended for that use. See below example:
 
 ```
 public class Media {
-    public void saveMedia(
+    public void saveMedia() {
+        saveGenres();
+        savePreviewImage();
+        saveTypeSpecific();
+        saveRating();
+    }
+    
+    //common
+    public void saveGenres() {
+        ...
+    }
+    
+    public void savePreviewImage() {
+        ...
+    }
+    
+    //to be overridden
+    public void saveTypeSpecific() {
+       ...
+    }
+    
+    public void saveRating() {
+       ...
+    }
+}
+
+public class Movie extends Media {
+    @override
+    public void saveTypeSpecific() {
+        saveRuntime();
+    }
+    
+    @override
+    public void saveRating() {
+        saveMPAA();
+    }
+}
+
+public class TVShow extends Media {
+    @override
+    public void saveTypeSpecific() {
+        saveSeasonsOwned();
+    }
+    
+    @override
+    public void saveRating() {
+        saveTVRating();
+    }
 }
 ```
 

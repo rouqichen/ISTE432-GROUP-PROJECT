@@ -1,10 +1,11 @@
 # ISTE432-GROUP-PROJECT
 
 ## Team Members and Roles
-Rouqi Chen
-Liam Bewley
-Harsh Mathur
-Steve Jackling
+
+- Rouqi Chen
+- Liam Bewley
+- Harsh Mathur
+- Steve Jackling
 
 ## Background
 The digital age has seen a great shift in the way we consume and store media. For many, streaming services have replaced the need to buy movies or TV shows. But there are those who still wish to own their media to view at any time regardless of current streaming licenses and which services they currently have access to. While buying content digitally can be convenient to save storage space, there are also many different storefronts and options, such as apple, amazon, google, youtube, roku, etc. Compound that with a physical library of DVDs and/or Blu-Rays and the convenience of the digital age is lost in confusion and disorganization.
@@ -27,6 +28,7 @@ Our project is an application to let users track and sort their full collection 
 - At minimum, title and platform (where/how it is owned) must be entered for any given media
 
 ## Technologies Used
+
 - JAVA
 - MYSQL
 
@@ -91,10 +93,11 @@ public class TVShow extends Media {
 ```
 
 ## Timeline
-Design - March 5, 2021
-Layering - March 12, 2021
-Exception Handling - March 26, 2021
-Refactoring April 9, 2021
-Testing - April 23, 2021
-Packaging - April 30, 2021
-Finalized Code - May 5, 2021
+
+- Design - March 5, 2021
+- Layering - March 12, 2021
+- Exception Handling - March 26, 2021
+- Refactoring April 9, 2021
+- Testing - April 23, 2021
+- Packaging - April 30, 2021
+- Finalized Code - May 5, 2021

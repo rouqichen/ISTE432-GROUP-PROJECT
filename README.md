@@ -37,7 +37,7 @@ The Template Method pattern will be used to reduce redundancy in saving differen
 [Diagram.pdf](https://github.com/rouqichen/ISTE432-GROUP-PROJECT/files/6093527/Diagram.pdf)
 
 
-```
+```java
 public class Media {
     public void saveMedia() {
         saveGenres();

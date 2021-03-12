@@ -101,3 +101,27 @@ public class TVShow extends Media {
 - Testing - April 23, 2021
 - Packaging - April 30, 2021
 - Finalized Code - May 5, 2021
+
+## Layers
+
+### Presentation Layer
+
+### Business Layer
+
+The business layer is responsible for core program logic. 
+Media is a parent class to Movie and TVShow with code and functions that are consistent across both media types.
+Library contains a list of media a user owns, as well as methods to search and sort that list.
+
+- Movie
+- TVShow
+- Media
+- User
+- Library
+
+### Data Layer
+
+The data layer consists of data access objects used to retrieve data out of the database. These can post, put, get and delete rows from the database.
+
+- MovieDAO
+- TVShowDAO
+- UserDAO

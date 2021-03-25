@@ -133,3 +133,49 @@ The data layer consists of data access objects used to retrieve data out of the 
 - MovieDAO
 - TVShowDAO
 - UserDAO
+
+## Exception Handling
+
+Data layer exceptions are passed up to the business layer. The business layer handles exceptions and passes only relevant/genericized fail messages to the presentation layer/user. Example below:
+
+```java
+public class DataLayerClass {
+    public boolean connect() throws DataLayerException {
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            connection = DriverManager.getConnection(connectionURI);
+        } catch(Exception e) {
+            throw new DataLayerException(e, "JDBC Driver not found");
+        }
+    }
+    
+    public int setData(String updateString) throws DataLayerException {
+
+        int numAffected = -1;
+
+        try {
+            Statement statement = connection.createStatement();
+            numAffected = statement.executeUpdate(updateString);
+        } catch (SQLException sqle) {
+            throw new DataLayerException(sqle, "SQL error occured");
+        } catch (Exception e) {
+            throw new DataLayerException(e, "Error updating rows");
+        }
+
+        return numAffected;
+
+    }
+}
+
+public class BusinessLayerClass {
+    public String getMovieJSON(int id) {
+        try {
+            Movie movie = MovieDAO.get(id);
+            String jsonString = JSONConverter.getMovie(movie);
+            return jsonString;
+        } catch (DataLayerException dle) {
+            return "\"Error\": \"Error occured getting movie details\""
+        }
+    }
+}
+```

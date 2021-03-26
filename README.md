@@ -198,6 +198,43 @@ public class BusinessLayerClass {
         }
     }
     
+     public void updateMovieStatement() throws Exception {
+
+        try {
+
+
+            Statement statement = con.connect().createStatement();
+
+            ResultSet rs = statement.executeQuery("select * from updateMovieStatement where ");
+
+            while (rs.next()) {
+                // get the filepath of the PDF document
+                String path1 = rs.getString(2);
+                int getNum= rs.getInt(1);
+                // while running the process, update status : Processing
+                updateProcess_DB(getNum);
+
+               // call the index function
+                Indexing conn = new Indexing();
+                conn.extractDocuments(path1);
+                // After completing the process, update status: Complete
+               updateComplete_DB(getNum);
+
+             // if error occurs 
+// call this method updateError_DB(getNum);
+
+
+                }
+
+
+        }catch(SQLException|IOException e){
+            e.printStackTrace();
+
+        }
+
+
+
+    }
     
 }
 ```

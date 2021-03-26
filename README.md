@@ -244,7 +244,7 @@ public class BusinessLayerClass {
 
         }
 
-public void addMovie(String _movieName, String _){
+public void addMovie(int _id, String _movieName){
       
       String MovieName;
       
@@ -252,7 +252,7 @@ public void addMovie(String _movieName, String _){
          System.out.println("-----INSERT started-----");
          try{
             stmt = conn.createStatement();
-            String sql = "INSERT INTO passenger(PassengerID, FName, LName, Street, Zip) VALUES (11, '" +FName + "', '" + LName + "', '" + Street + "', '" + Zip + "');";
+            String sql = "INSERT INTO media(id, MovieName) VALUES (_id, '" + MovieName  + "');";
             System.out.println("Command to be executed: " + sql);
             rows = stmt.executeUpdate(sql);
             System.out.println("-----INSERT finished-----");
@@ -265,6 +265,50 @@ public void addMovie(String _movieName, String _){
          }
          
       }//end of addMovie
+      
+      public void addTV(int _id, String _tvName){
+      
+      String MovieName;
+      
+         int rows = 0;
+         System.out.println("-----INSERT started-----");
+         try{
+            stmt = conn.createStatement();
+            String sql = "INSERT INTO media(id, TvShowName) VALUES (_id, '" + _tvName  + "');";
+            System.out.println("Command to be executed: " + sql);
+            rows = stmt.executeUpdate(sql);
+            System.out.println("-----INSERT finished-----");
+         }//try
+         catch(SQLException sqle){
+            System.out.println("INSERT FAILED!!!!");
+            System.out.println("ERROR MESSAGE IS -> "+sqle);
+            sqle.printStackTrace();
+           
+         }
+         
+      }//end of addTvShow
+      
+      public void addUser(int _id, String _userName){
+      
+      String MovieName;
+      
+         int rows = 0;
+         System.out.println("-----INSERT started-----");
+         try{
+            stmt = conn.createStatement();
+            String sql = "INSERT INTO media(id, UserName) VALUES (_id, '" + _userName  + "');";
+            System.out.println("Command to be executed: " + sql);
+            rows = stmt.executeUpdate(sql);
+            System.out.println("-----INSERT finished-----");
+         }//try
+         catch(SQLException sqle){
+            System.out.println("INSERT FAILED!!!!");
+            System.out.println("ERROR MESSAGE IS -> "+sqle);
+            sqle.printStackTrace();
+           
+         }
+         
+      }//end of addUserName
 
 
     }

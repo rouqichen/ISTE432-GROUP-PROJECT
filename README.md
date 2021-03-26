@@ -138,6 +138,8 @@ The data layer consists of data access objects used to retrieve data out of the 
 
 Data layer exceptions are passed up to the business layer. The business layer handles exceptions and passes only relevant/genericized fail messages to the presentation layer/user. Example below:
 
+## Data Layer Class
+
 ```java
 import java.sql.*;
 import javax.swing.*;
@@ -220,7 +222,10 @@ public DataLayerClass() {
       return cd;
    }// End of method to Delete
 }
+```
 
+## BusinessLayerClass
+```java
 public class BusinessLayerClass {
     public String getMovieJSON(int id) {
         try {
@@ -356,7 +361,9 @@ public void addMovie(int _id, String _movieName){
     }
     
 }
-
+```
+## Presentation Layer
+```java
 import java.net.*;
 import javax.swing.*;
 import java.awt.*;

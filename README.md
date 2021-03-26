@@ -244,12 +244,10 @@ public class BusinessLayerClass {
 
         }
 
-public void addMovie(){
+public void addMovie(String _movieName, String _){
       
       String MovieName;
-      String LName = "Mathur";
-      String Street = "1 Lomb Memorial Drive";
-      String Zip = "14623";
+      
          int rows = 0;
          System.out.println("-----INSERT started-----");
          try{

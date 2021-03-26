@@ -308,7 +308,7 @@ public void addMovie(int _id, String _movieName){
            
          }
          
-      }//end of addUserName
+      }//end of addUser
 
 
     }

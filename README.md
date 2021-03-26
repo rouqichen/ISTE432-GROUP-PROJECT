@@ -149,6 +149,18 @@ public class DataLayerClass {
         }
     }
     
+    public void close(){
+      try {
+         
+         conn.close();
+      }
+      catch(SQLException sqle){
+        System.out.println("ERROR IN METHOD close()");
+        System.out.println("ERROR MESSAGE -> "+sqle);
+      }// end of catch
+   }//end of method close
+
+    
     public int setData(String updateString) throws DataLayerException {
 
         int numAffected = -1;
@@ -198,14 +210,14 @@ public class BusinessLayerClass {
         }
     }
     
-     public void updateMovieStatement() throws Exception {
+     public void updateMovieStatement(string movieName) throws Exception {
 
         try {
 
 
             Statement statement = con.connect().createStatement();
 
-            ResultSet rs = statement.executeQuery("select * from updateMovieStatement where ");
+            ResultSet rs = statement.executeQuery("select * from updateMovieStatement where moviename = movieName");
 
             while (rs.next()) {
                 // get the filepath of the PDF document
@@ -215,7 +227,7 @@ public class BusinessLayerClass {
                 updateProcess_DB(getNum);
 
                // call the index function
-                Indexing conn = new Indexing();
+                
                 conn.extractDocuments(path1);
                 // After completing the process, update status: Complete
                updateComplete_DB(getNum);
@@ -232,6 +244,29 @@ public class BusinessLayerClass {
 
         }
 
+public void addMovie(){
+      
+      String MovieName;
+      String LName = "Mathur";
+      String Street = "1 Lomb Memorial Drive";
+      String Zip = "14623";
+         int rows = 0;
+         System.out.println("-----INSERT started-----");
+         try{
+            stmt = conn.createStatement();
+            String sql = "INSERT INTO passenger(PassengerID, FName, LName, Street, Zip) VALUES (11, '" +FName + "', '" + LName + "', '" + Street + "', '" + Zip + "');";
+            System.out.println("Command to be executed: " + sql);
+            rows = stmt.executeUpdate(sql);
+            System.out.println("-----INSERT finished-----");
+         }//try
+         catch(SQLException sqle){
+            System.out.println("INSERT FAILED!!!!");
+            System.out.println("ERROR MESSAGE IS -> "+sqle);
+            sqle.printStackTrace();
+           
+         }
+         
+      }//end of addMovie
 
 
     }

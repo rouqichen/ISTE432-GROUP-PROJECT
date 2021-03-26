@@ -445,7 +445,7 @@ public class PresentationLayer extends JFrame {
    
       pack();
       setDefaultCloseOperation(HIDE_ON_CLOSE);
-      setTitle("!Failure Client");
+      setTitle("ISTE 432");
       setVisible(true); 
          
       

@@ -177,5 +177,24 @@ public class BusinessLayerClass {
             return "\"Error\": \"Error occured getting movie details\""
         }
     }
+    
+     public String getTVShowJSON(int id) {
+        try {
+            TvShow tvShow = tvShow.get(id);
+            String jsonString = JSONConverter.getTvShow(tvShow);
+            return jsonString;
+        } catch (DataLayerException dle) {
+            return "Error occured: Unable to grab Tv Show JSON specifications";
+        }
+    }
+    public String getTVShowJSON(int id) {
+        try {
+            TvShow tvShow = tvShow.get(id);
+            String jsonString = JSONConverter.getTvShow(tvShow);
+            return jsonString;
+        } catch (DataLayerException dle) {
+            return "Error occured: Unable to grab Tv Show JSON specifications";
+        }
+    }
 }
 ```

@@ -1,8 +1,8 @@
 package com.group.MediaLibrary.data;
 
 import java.sql.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+import java.util.Date;
 
 /**
  * Database connection to PostgreSQL Database
@@ -302,7 +302,7 @@ public class PostgreSQLDatabase {
     /**
      * Start a transaction
      */
-    public void startTrans() throws DataLayerException {
+    public void startTransaction() throws DataLayerException {
         inTransaction = true;
 
         try {
@@ -317,7 +317,7 @@ public class PostgreSQLDatabase {
     /**
      * End a transaction by committing
      */
-    public void endTrans() throws DataLayerException {
+    public void commitTransaction() throws DataLayerException {
 
         try {
             connection.commit();
@@ -332,7 +332,7 @@ public class PostgreSQLDatabase {
     /**
      * End a transaction by rolling back
      */
-    public void rollbackTrans() throws DataLayerException {
+    public void rollbackTransaction() throws DataLayerException {
 
         try {
             connection.rollback();
@@ -345,4 +345,12 @@ public class PostgreSQLDatabase {
 
     }
 
+    /**
+     * Helper to format java Date objects for SQL
+     * @param date
+     * @return
+     */
+    public static String formatDate(GregorianCalendar date) {
+        return String.format("%s-%s-%s", date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DAY_OF_MONTH));
+    }
 }

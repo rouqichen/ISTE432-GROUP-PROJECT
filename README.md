@@ -694,3 +694,6 @@ public class PresentationLayer extends JFrame {
 }
 
 ```
+## Performance and Refactoring
+
+The most notable refactoring to take place occured due to a change in requirements. We changed from using MySQL to using a PostgreSQL database. Thanks to the structure of the code, this affected only the database itself, it's class (MySqlDatabase.java -> PostgreSQLDatabase.java) and a single method in that class. The change can be found in the file [MediaLibrary/src/main/java/com/group/MediaLibrary/data/PostgreSQLDatabase.java at line 36](https://github.com/rouqichen/ISTE432-GROUP-PROJECT/blob/main/MediaLibrary/src/main/java/com/group/MediaLibrary/data/PostgreSQLDatabase.java#L36)

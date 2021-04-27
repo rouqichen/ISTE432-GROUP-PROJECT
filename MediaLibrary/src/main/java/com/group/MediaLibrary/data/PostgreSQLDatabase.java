@@ -1,8 +1,8 @@
 package com.group.MediaLibrary.data;
 
 import java.sql.*;
+import java.sql.Date;
 import java.util.*;
-import java.util.Date;
 
 /**
  * Database connection to PostgreSQL Database
@@ -353,4 +353,5 @@ public class PostgreSQLDatabase {
     public static String formatDate(GregorianCalendar date) {
         return String.format("%s-%s-%s", date.get(Calendar.YEAR), date.get(Calendar.MONTH), date.get(Calendar.DAY_OF_MONTH));
     }
+
 }

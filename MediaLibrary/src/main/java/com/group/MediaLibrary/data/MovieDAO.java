@@ -1,5 +1,6 @@
 package com.group.MediaLibrary.data;
 
+import java.sql.Date;
 import java.util.ArrayList;
 
 public class MovieDAO extends MediaDAO{
@@ -20,6 +21,40 @@ public class MovieDAO extends MediaDAO{
         super();
 
         this.movieid = movieid;
+    }
+
+    @Override
+    public boolean getMedia() throws DataLayerException {
+        fetchGenres();
+
+        database.connect();
+
+        String sql = "SELECT mv.movieid, mv.mediaid, md.title, md.release_date, md.image_url, md.description, mv.runtime, mv.mpaa_rating FROM movie as mv JOIN media as md ON mv.mediaid = md.mediaid WHERE mv.mediaid = ?";
+        ArrayList<String> vals = new ArrayList<>();
+        vals.add("" + getId());
+
+        ArrayList<ArrayList<String>> rows = database.getData(sql, vals);
+
+        database.close();
+
+        if(rows.size() < 1) {
+            return false;
+        }
+
+        if(rows.size() > 1) {
+            throw new DataLayerException("Too many rows with movieid " + movieid);
+        }
+
+        ArrayList<String> movieValues = rows.get(0);
+        setMovieid(Integer.parseInt(movieValues.get(0)));
+        setTitle(movieValues.get(2));
+        setRelease(Date.valueOf(movieValues.get(3)));
+        setImage(movieValues.get(4));
+        setDescription(movieValues.get(5));
+        setRuntime(Integer.parseInt(movieValues.get(6)));
+        setMpaaRating(movieValues.get(7));
+
+        return true;
     }
 
     /**

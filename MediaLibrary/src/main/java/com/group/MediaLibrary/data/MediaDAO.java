@@ -1,5 +1,6 @@
 package com.group.MediaLibrary.data;
 
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -11,7 +12,7 @@ public abstract class MediaDAO {
     List<String> genres;
     int id;
     String title;
-    GregorianCalendar release;
+    Date release;
     String image;
     String description;
     PostgreSQLDatabase database;
@@ -25,6 +26,62 @@ public abstract class MediaDAO {
     public MediaDAO(int id) {
         this.id = id;
         database = new PostgreSQLDatabase();
+    }
+
+    /**
+     * Get this media object from the database
+     * @return
+     * @throws DataLayerException
+     */
+    public abstract boolean getMedia() throws DataLayerException;
+
+    public boolean fetchGenres() throws DataLayerException {
+
+        String sql = "SELECT name FROM genre JOIN media_genre ON genre.genreid = media_genre.genreid WHERE mediaid = ?";
+        ArrayList<String> vals = new ArrayList<>();
+        vals.add("" + id);
+
+        database.connect();
+        ArrayList<ArrayList<String>> rows = database.getData(sql, vals);
+        database.close();
+
+        ArrayList<String> genres = new ArrayList<>();
+
+        for(ArrayList<String> genreRow: rows) {
+            genres.add(genreRow.get(0));
+        }
+
+        setGenres(genres);
+
+        return true;
+    }
+
+    public boolean isMovie() throws DataLayerException {
+        database.connect();
+
+        String sql = "SELECT * FROM movie WHERE mediaid = ?";
+        ArrayList<String> vals = new ArrayList<>();
+        vals.add("" + id);
+
+        ArrayList<ArrayList<String>> rows = database.getData(sql, vals);
+
+        database.close();
+
+        return rows.size() > 0;
+    }
+
+    public boolean isTvShow() throws DataLayerException {
+        database.connect();
+
+        String sql = "SELECT * FROM tv_show WHERE mediaid = ?";
+        ArrayList<String> vals = new ArrayList<>();
+        vals.add("" + id);
+
+        ArrayList<ArrayList<String>> rows = database.getData(sql, vals);
+
+        database.close();
+
+        return rows.size() > 0;
     }
 
     /**
@@ -80,7 +137,7 @@ public abstract class MediaDAO {
         ArrayList<String> mediaParams = new ArrayList<>();
         mediaParams.add("" + getId());
         mediaParams.add(getTitle());
-        mediaParams.add(PostgreSQLDatabase.formatDate(getRelease()));
+        mediaParams.add(getRelease().toString());
         mediaParams.add(getImage());
         mediaParams.add(getDescription());
 
@@ -187,11 +244,11 @@ public abstract class MediaDAO {
         this.title = title;
     }
 
-    public GregorianCalendar getRelease() {
+    public Date getRelease() {
         return release;
     }
 
-    public void setRelease(GregorianCalendar release) {
+    public void setRelease(Date release) {
         this.release = release;
     }
 

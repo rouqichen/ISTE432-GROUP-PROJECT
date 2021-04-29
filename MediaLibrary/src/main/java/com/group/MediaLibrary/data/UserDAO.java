@@ -103,6 +103,23 @@ public class UserDAO {
         fetch(sql, vals);
     }
 
+    public void fetchByLength(int minLength, int maxLength) throws DataLayerException {
+        String sql = "SELECT lib.mediaid FROM movie "
+                + "RIGHT JOIN user_media as lib ON lib.mediaid = movie.mediaid "
+                + "LEFT JOIN tv_show as tv ON lib.mediaid = tv.mediaid "
+                + "WHERE (episode_length > ? OR runtime > ?) "
+                + "AND (episode_length < ? OR runtime < ?) "
+                + "AND lib.uid = ?";
+        ArrayList<String> vals = new ArrayList<>();
+        vals.add("" + minLength);
+        vals.add("" + minLength);
+        vals.add("" + maxLength);
+        vals.add("" + maxLength);
+        vals.add("" + uid);
+
+        fetch(sql, vals);
+    }
+
     private void fetch(String sql, ArrayList<String> vals) throws DataLayerException {
         PostgreSQLDatabase db = new PostgreSQLDatabase();
 

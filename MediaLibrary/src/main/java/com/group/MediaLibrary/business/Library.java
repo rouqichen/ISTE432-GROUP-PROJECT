@@ -80,6 +80,28 @@ public class Library {
     }
 
     /**
+     * Load items which have a run time or episode length between min and max
+     * @param minLength Minimum length to include
+     * @param maxLength Maximum length to include
+     * @return Library
+     */
+    public boolean loadLibraryByLength(int minLength, int maxLength) {
+        UserDAO user = new UserDAO(userId);
+        library = new ArrayList<>();
+
+        try {
+            user.fetchByLength(minLength, maxLength);
+
+            loadMediaFromUserDAO(user);
+
+        } catch (DataLayerException dle) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Private helper to load Media objects into list from list of ids
      *
      * @param user

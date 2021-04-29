@@ -27,7 +27,8 @@ public class LibraryController {
     @GetMapping("/library/search/genre")
     public ArrayList<Media> getLibraryByGenre(
             @RequestParam(value = "userToken") int userToken,
-            @RequestParam(value = "genre") String genre) {
+            @RequestParam(value = "genre") String genre
+    ) {
 
         Library library = new Library(userToken);
         library.loadLibraryByGenre(genre);
@@ -43,6 +44,19 @@ public class LibraryController {
 
         Library library = new Library(userToken);
         library.loadLibraryByTitle(title);
+        return library.getLibrary();
+
+    }
+
+    @GetMapping("/library/search/length")
+    public ArrayList<Media> getLibraryByTitle(
+            @RequestParam(value = "userToken") int userToken,
+            @RequestParam(value = "max", defaultValue = "" + Integer.MAX_VALUE) int maxLength,
+            @RequestParam(value = "mix", defaultValue = "0") int minLength
+    ) {
+
+        Library library = new Library(userToken);
+        library.loadLibraryByLength(minLength, maxLength);
         return library.getLibrary();
 
     }

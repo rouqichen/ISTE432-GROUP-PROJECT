@@ -24,6 +24,17 @@ public class LibraryController {
 
     }
 
+    @GetMapping("/library/search/genre")
+    public ArrayList<Media> getLibraryByGenre(
+            @RequestParam(value = "userToken") int userToken,
+            @RequestParam(value = "genre") String genre) {
+
+        Library library = new Library(userToken);
+        library.loadLibraryByGenre(genre);
+        return library.getLibrary();
+
+    }
+
     @PostMapping(value = "/library/movie", consumes = MediaType.APPLICATION_JSON_VALUE)
     public String saveMovieToLibrary(@RequestBody MovieRequest movieRequest) {
 

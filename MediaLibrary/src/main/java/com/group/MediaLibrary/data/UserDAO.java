@@ -92,6 +92,33 @@ public class UserDAO {
 
     }
 
+    public void fetchByGenre(String genre) throws DataLayerException {
+        String sql = "SELECT lib.mediaid FROM user_media as lib "
+                + "JOIN media_genre as mg ON lib.mediaid = mg.mediaid "
+                + "JOIN genre ON genre.genreid = mg.genreid "
+                + "WHERE genre.name LIKE ? "
+                + "AND lib.uid = ?";
+        ArrayList<String> vals = new ArrayList<>();
+        vals.add(genre);
+        vals.add("" + uid);
+
+        PostgreSQLDatabase db = new PostgreSQLDatabase();
+
+        try {
+            db.connect();
+
+            ArrayList<ArrayList<String>> mediaIds = db.getData(sql, vals);
+            for(ArrayList<String> row: mediaIds) {
+                ownedMedia.add(Integer.valueOf(row.get(0)));
+            }
+
+            db.close();
+        } catch (DataLayerException dle) {
+            db.close();
+            throw new DataLayerException(dle, "Error getting user library");
+        }
+    }
+
     public boolean postMediaToLibrary(int mediaId, String location) {
         String sql = "INSERT INTO user_media(uid, mediaid, location) VALUES(?, ?, ?)";
         ArrayList<String> vals = new ArrayList<>();

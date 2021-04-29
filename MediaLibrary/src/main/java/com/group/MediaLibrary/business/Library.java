@@ -28,6 +28,57 @@ public class Library {
         try {
             user.fetch();
 
+            loadMediaFromUserDAO(user);
+
+        } catch (DataLayerException dle) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Load items in the user's library which have the passed genre
+     * @param genre Genre to filter by
+     * @return Library
+     */
+    public boolean loadLibraryByGenre(String genre) {
+        UserDAO user = new UserDAO(userId);
+        library = new ArrayList<>();
+
+        try {
+            user.fetchByGenre(genre);
+
+            loadMediaFromUserDAO(user);
+
+        } catch (DataLayerException dle) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
+     * Private helper to load Media objects into list from list of ids
+     *
+     * @param user
+     * @return
+     */
+    private void loadMediaFromUserDAO(UserDAO user) {
+        ArrayList<Integer> mediaIds = user.getOwnedMedia();
+        for(Integer mediaId: mediaIds) {
+            Media media = new Media(mediaId);
+            library.add(media.getTypeMedia());
+        }
+    }
+
+    private boolean loadLibraryHelper() {
+        UserDAO user = new UserDAO(userId);
+        library = new ArrayList<>();
+
+        try {
+            user.fetch();
+
             ArrayList<Integer> mediaIds = user.getOwnedMedia();
             for(Integer mediaId: mediaIds) {
                 Media media = new Media(mediaId);

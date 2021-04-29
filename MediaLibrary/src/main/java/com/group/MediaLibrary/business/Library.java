@@ -26,7 +26,7 @@ public class Library {
         library = new ArrayList<>();
 
         try {
-            user.fetch();
+            user.fetchAll();
 
             loadMediaFromUserDAO(user);
 
@@ -59,6 +59,27 @@ public class Library {
     }
 
     /**
+     * Load items which include the passed string in the title
+     * @param title Search string
+     * @return Library
+     */
+    public boolean loadLibraryByTitle(String title) {
+        UserDAO user = new UserDAO(userId);
+        library = new ArrayList<>();
+
+        try {
+            user.fetchByTitle(title);
+
+            loadMediaFromUserDAO(user);
+
+        } catch (DataLayerException dle) {
+            return false;
+        }
+
+        return true;
+    }
+
+    /**
      * Private helper to load Media objects into list from list of ids
      *
      * @param user
@@ -70,25 +91,6 @@ public class Library {
             Media media = new Media(mediaId);
             library.add(media.getTypeMedia());
         }
-    }
-
-    private boolean loadLibraryHelper() {
-        UserDAO user = new UserDAO(userId);
-        library = new ArrayList<>();
-
-        try {
-            user.fetch();
-
-            ArrayList<Integer> mediaIds = user.getOwnedMedia();
-            for(Integer mediaId: mediaIds) {
-                Media media = new Media(mediaId);
-                library.add(media.getTypeMedia());
-            }
-
-        } catch (DataLayerException dle) {
-            return false;
-        }
-        return true;
     }
 
     /**

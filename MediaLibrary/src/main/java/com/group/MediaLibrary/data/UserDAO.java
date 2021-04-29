@@ -69,26 +69,12 @@ public class UserDAO {
     }
 
     //get from db
-    public void fetch() throws DataLayerException {
+    public void fetchAll() throws DataLayerException {
         String sql = "SELECT mediaid FROM user_media WHERE uid = ?";
         ArrayList<String> vals = new ArrayList<>();
         vals.add("" + uid);
 
-        PostgreSQLDatabase db = new PostgreSQLDatabase();
-
-        try {
-            db.connect();
-
-            ArrayList<ArrayList<String>> mediaIds = db.getData(sql, vals);
-            for(ArrayList<String> row: mediaIds) {
-                ownedMedia.add(Integer.valueOf(row.get(0)));
-            }
-
-            db.close();
-        } catch (DataLayerException dle) {
-            db.close();
-            throw new DataLayerException(dle, "Error getting user library");
-        }
+        fetch(sql, vals);
 
     }
 
@@ -102,6 +88,22 @@ public class UserDAO {
         vals.add(genre);
         vals.add("" + uid);
 
+        fetch(sql, vals);
+    }
+
+    public void fetchByTitle(String title) throws DataLayerException {
+        String sql = "SELECT lib.mediaid FROM user_media as lib "
+                + "JOIN media ON lib.mediaid = media.mediaid "
+                + "WHERE media.title LIKE ? "
+                + "AND lib.uid = ?";
+        ArrayList<String> vals = new ArrayList<>();
+        vals.add("%" + title + "%");
+        vals.add("" + uid);
+
+        fetch(sql, vals);
+    }
+
+    private void fetch(String sql, ArrayList<String> vals) throws DataLayerException {
         PostgreSQLDatabase db = new PostgreSQLDatabase();
 
         try {

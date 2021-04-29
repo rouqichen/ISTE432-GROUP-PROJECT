@@ -25,16 +25,28 @@ public class TVShowDAO extends MediaDAO {
 
     @Override
     public boolean getMedia() throws DataLayerException {
-        fetchGenres();
-
-        database.connect();
 
         String sql = "SELECT tv.showid, tv.mediaid, md.title, md.release_date, md.image_url, md.description, tv.episode_length, tv.tv_rating FROM tv_show as tv JOIN media as md ON tv.mediaid = md.mediaid WHERE tv.mediaid = ?";
         ArrayList<String> vals = new ArrayList<>();
         vals.add("" + getId());
 
-        ArrayList<ArrayList<String>> rows = database.getData(sql, vals);
+        return fetch(sql, vals);
+    }
 
+    public boolean getShow() throws DataLayerException {
+
+        String sql = "SELECT tv.showid, tv.mediaid, md.title, md.release_date, md.image_url, md.description, tv.episode_length, tv.tv_rating FROM tv_show as tv JOIN media as md ON tv.mediaid = md.mediaid WHERE tv.showid = ?";
+        ArrayList<String> vals = new ArrayList<>();
+        vals.add("" + getShowid());
+
+        return fetch(sql, vals);
+    }
+
+    private boolean fetch(String sql, ArrayList<String> vals) throws DataLayerException {
+        fetchGenres();
+
+        database.connect();
+        ArrayList<ArrayList<String>> rows = database.getData(sql, vals);
         database.close();
 
         if(rows.size() < 1) {
@@ -56,7 +68,6 @@ public class TVShowDAO extends MediaDAO {
 
         return true;
     }
-
 
     /**
      * Save data to tv_show table

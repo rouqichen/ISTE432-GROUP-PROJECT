@@ -2,6 +2,7 @@ package com.group.MediaLibrary.business;
 
 import com.group.MediaLibrary.data.DataLayerException;
 import com.group.MediaLibrary.data.MovieDAO;
+import com.group.MediaLibrary.data.TVShowDAO;
 import com.group.MediaLibrary.data.UserDAO;
 
 import java.util.ArrayList;
@@ -39,6 +40,12 @@ public class Library {
         return true;
     }
 
+    /**
+     * Save movie to user's library that does not already exist in database
+     * @param movie Movie with values from post request
+     * @param location Where the user owns the movie
+     * @return success
+     */
     public boolean saveNewMovie(Movie movie, String location) {
         //verify details are filled out
         if(!movie.verifyDetails()) {
@@ -66,6 +73,45 @@ public class Library {
         return user.postMediaToLibrary(movie.getMediaId(), location);
     }
 
+    /**
+     * Save show to user's library that does not already exist in database
+     * @param show Tv Show with values from post request
+     * @param location Where the user owns the show
+     * @return success
+     */
+    public boolean saveNewShow(TvShow show, String location) {
+        //verify details are filled out
+        if(!show.verifyDetails()) {
+            return false;
+        }
+
+        //save details to media/tv_show tables
+        TVShowDAO showDAO = new TVShowDAO();
+        showDAO.setGenres(show.getGenres());
+        showDAO.setTitle(show.getTitle());
+        showDAO.setDescription(show.getDescription());
+        showDAO.setImage(show.getImage());
+        showDAO.setRelease(show.getRelease());
+        showDAO.setEpisodeLength(show.getEpisodeLength());
+        showDAO.setTvRating(show.getTvRating());
+
+        try {
+            showDAO.saveMedia();
+        } catch (DataLayerException dle) {
+            return false;
+        }
+
+        //save to user library
+        UserDAO user = new UserDAO(userId);
+        return user.postMediaToLibrary(show.getMediaId(), location);
+    }
+
+    /**
+     * Save movie to user's library that exists in database
+     * @param movie Movie with values from post request
+     * @param location Where the user owns the movie
+     * @return success
+     */
     public boolean saveExistingMovie(Movie movie, String location) {
         //make sure movie is valid
         if(movie.getByMovieId()) {
@@ -79,6 +125,26 @@ public class Library {
             return false;
         }
 
+    }
+
+    /**
+     * Save show to user's library that exists in database
+     * @param show Tv Show with values from post request
+     * @param location Where the user owns the show
+     * @return success
+     */
+    public boolean saveExistingShow(TvShow show, String location) {
+        //make sure show is valid
+        if(show.getByShowId()) {
+
+            //save to user library
+            UserDAO user = new UserDAO(userId);
+
+            return user.postMediaToLibrary(show.getMediaId(), location);
+
+        } else {
+            return false;
+        }
     }
 
     //basic getters and setters

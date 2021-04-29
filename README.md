@@ -701,3 +701,40 @@ The most notable refactoring to take place occured due to a change in requiremen
 ## Testing
 
 To unit test sections of our code we are using JUnit and Mockito. JUnit is a common annotation based unit testing framework which used to easily write and run unit tests within an IDE. Mockito is a mocking framework used to compartmentalize code for the purpose of testing (i.e. a method that involves another class, rather than letting the test run the methods of both classes, mockito creates a fake version of the second class, then the method being called is mocked and returns a response specified through mockito instead). An example of this can be seen in the test class for the database. The mock is set up in a method on line 29 ([MediaLibrary/src/test/java/com/group/MediaLibrary/DataLayerTests/TestPostgreSQLDatabase.java](https://github.com/rouqichen/ISTE432-GROUP-PROJECT/blob/main/MediaLibrary/src/test/java/com/group/MediaLibrary/DataLayerTests/TestPostgreSQLDatabase.java#L29)), which mocks a number of JDBC related classes to contain the output to being dependant on only the method being tested, and to make no real calls to the database. Each unit test then specifies what methods it expects to be called on those mocked objects, and what to return when they are called (as seen in the same file at line 57).
+
+## Deployment & Packaging
+
+1. Download and install PostgreSQL
+
+The code here uses user 'root' and password 'student', though these can be whatever you like
+
+2. Clone this repo
+```
+cd targetDirectory
+git clone https://github.com/rouqichen/ISTE432-GROUP-PROJECT.git
+```
+
+4. Create database
+Run postgres from the command line, then create the database
+```
+psql
+CREATE DATABASE medialibrary;
+```
+
+3. Import the database
+
+The sql script medialibrary.sql is a PostgreSQL dump which can be loaded into Postgres on your machine using:
+```psql medialibrary < medialibrary.sql```
+
+4. Configure
+
+Currently, the username and password for the database are stored in [MediaLibrary/src/main/java/com/group/MediaLibrary/data/PostgreSQLDatabase.java](https://github.com/rouqichen/ISTE432-GROUP-PROJECT/blob/main/MediaLibrary/src/main/java/com/group/MediaLibrary/data/PostgreSQLDatabase.java#). If yours are different, replace these
+
+5. Build the code
+
+You can either run the code immediately using ```gradlew bootRun```
+Or you can build a jar using ```gradlew bootJar``` and then deploy/run the jar
+
+6. Finish
+
+The application will be hosted on port 8080, errors can be found in a log file log.txt

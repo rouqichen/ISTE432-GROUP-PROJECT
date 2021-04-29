@@ -1,6 +1,11 @@
 package com.group.MediaLibrary.data;
 
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.ArrayList;
+import java.util.Base64;
 
 public class UserDAO {
 
@@ -10,6 +15,57 @@ public class UserDAO {
     public UserDAO(int uid) {
         this.uid = uid;
         ownedMedia = new ArrayList<>();
+    }
+
+    public UserDAO() {
+
+    }
+
+    /**
+     *
+     * @param username
+     * @param password
+     * @return
+     * @throws DataLayerException
+     */
+    public int login(String username, String password) throws DataLayerException {
+        //prepare db query
+        String sql = "SELECT password, uid FROM lib_user WHERE username LIKE ?";
+        ArrayList<String> vals = new ArrayList<>();
+        vals.add(username);
+
+        PostgreSQLDatabase db = new PostgreSQLDatabase();
+        ArrayList<ArrayList<String>> resultList;
+
+        //get password, uid from database
+        try {
+            db.connect();
+            resultList = db.getData(sql, vals);
+            db.close();
+        } catch (DataLayerException dle) {
+            throw new DataLayerException(dle, "Error logging user in");
+        }
+
+        //bad username
+        if(resultList.size() < 1) {
+            return -1;
+        }
+
+        //check password
+        String hashedPassword = resultList.get(0).get(0);
+
+        password = hash(password);
+
+        if(password.equals(hashedPassword)) {
+            //return uid
+            setUid(Integer.parseInt(resultList.get(0).get(1)));
+
+            return getUid();
+        }
+
+        //bad password
+        return -1;
+
     }
 
     //get from db
@@ -51,5 +107,27 @@ public class UserDAO {
 
     public void setOwnedMedia(ArrayList<Integer> ownedMedia) {
         this.ownedMedia = ownedMedia;
+    }
+
+    /**
+     * Static helper function to hash passwords
+     *
+     * @param password String to be hashed
+     * @return hashed password
+     * @throws DataLayerException
+     */
+    public static String hash(String password) throws DataLayerException {
+        SecureRandom random = new SecureRandom();
+        byte[] salt = new byte[16];
+        random.nextBytes(salt);
+        MessageDigest md;
+        try {
+            md = MessageDigest.getInstance("SHA-512");
+        } catch (NoSuchAlgorithmException nsae) {
+            throw new DataLayerException(nsae);
+        }
+        md.update(salt);
+        byte[] hashedPassByte = md.digest(password.getBytes(StandardCharsets.UTF_8));
+        return Base64.getEncoder().encodeToString(hashedPassByte);
     }
 }

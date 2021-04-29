@@ -25,26 +25,48 @@ public class MovieDAO extends MediaDAO{
 
     @Override
     public boolean getMedia() throws DataLayerException {
-        fetchGenres();
-
-        database.connect();
 
         String sql = "SELECT mv.movieid, mv.mediaid, md.title, md.release_date, md.image_url, md.description, mv.runtime, mv.mpaa_rating FROM movie as mv JOIN media as md ON mv.mediaid = md.mediaid WHERE mv.mediaid = ?";
         ArrayList<String> vals = new ArrayList<>();
         vals.add("" + getId());
 
-        ArrayList<ArrayList<String>> rows = database.getData(sql, vals);
+        return fetch(sql, vals);
+    }
 
+    public boolean getMovie() throws DataLayerException {
+
+        String sql = "SELECT mv.movieid, mv.mediaid, md.title, md.release_date, md.image_url, md.description, mv.runtime, mv.mpaa_rating FROM movie as mv JOIN media as md ON mv.mediaid = md.mediaid WHERE mv.movieid = ?";
+        ArrayList<String> vals = new ArrayList<>();
+        vals.add("" + getMovieid());
+
+        return fetch(sql, vals);
+    }
+
+    /**
+     * Helper to fetch movie data with different inputs
+     *
+     * @param sql Sql query to get movie data
+     * @param vals Values for prepared statement
+     * @return Success
+     * @throws DataLayerException
+     */
+    private boolean fetch(String sql, ArrayList<String> vals) throws DataLayerException  {
+        //run query
+        database.connect();
+        ArrayList<ArrayList<String>> rows = database.getData(sql, vals);
         database.close();
 
+        //no results
         if(rows.size() < 1) {
             return false;
         }
 
+        //too many results
         if(rows.size() > 1) {
             throw new DataLayerException("Too many rows with movieid " + movieid);
         }
 
+        //set values
         ArrayList<String> movieValues = rows.get(0);
         setMovieid(Integer.parseInt(movieValues.get(0)));
         setTitle(movieValues.get(2));
@@ -53,6 +75,8 @@ public class MovieDAO extends MediaDAO{
         setDescription(movieValues.get(5));
         setRuntime(Integer.parseInt(movieValues.get(6)));
         setMpaaRating(movieValues.get(7));
+
+        fetchGenres();
 
         return true;
     }

@@ -92,6 +92,26 @@ public class UserDAO {
 
     }
 
+    public boolean postMediaToLibrary(int mediaId, String location) {
+        String sql = "INSERT INTO user_media(uid, mediaid, location) VALUES(?, ?, ?)";
+        ArrayList<String> vals = new ArrayList<>();
+        vals.add("" + getUid());
+        vals.add("" + mediaId);
+        vals.add(location);
+
+        PostgreSQLDatabase db = new PostgreSQLDatabase();
+
+        try {
+            db.connect();
+            int numAffected = db.setData(sql, vals);
+            db.close();
+
+            return numAffected > 0;
+        } catch (DataLayerException dle) {
+            return false;
+        }
+    }
+
     //getter and setter
     public int getUid() {
         return uid;

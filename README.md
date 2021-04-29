@@ -714,27 +714,27 @@ cd targetDirectory
 git clone https://github.com/rouqichen/ISTE432-GROUP-PROJECT.git
 ```
 
-4. Create database
+3. Create database
 Run postgres from the command line, then create the database
 ```
 psql
 CREATE DATABASE medialibrary;
 ```
 
-3. Import the database
+4. Import the database
 
 The sql script medialibrary.sql is a PostgreSQL dump which can be loaded into Postgres on your machine using:
 ```psql medialibrary < medialibrary.sql```
 
-4. Configure
+5. Configure
 
 Currently, the username and password for the database are stored in [MediaLibrary/src/main/java/com/group/MediaLibrary/data/PostgreSQLDatabase.java](https://github.com/rouqichen/ISTE432-GROUP-PROJECT/blob/main/MediaLibrary/src/main/java/com/group/MediaLibrary/data/PostgreSQLDatabase.java#). If yours are different, replace these
 
-5. Build the code
+6. Build the code
 
 You can either run the code immediately using ```gradlew bootRun```
 Or you can build a jar using ```gradlew bootJar``` and then deploy/run the jar
 
-6. Finish
+7. Finish
 
 The application will be hosted on port 8080, errors can be found in a log file log.txt

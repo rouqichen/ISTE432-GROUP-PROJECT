@@ -68,6 +68,26 @@ public class UserDAO {
 
     }
 
+    public boolean register(String username, String password) throws DataLayerException {
+        String sql = "INSERT INTO lib_user (username, password) VALUES (?, ?)";
+        ArrayList<String> vals = new ArrayList<>();
+        vals.add(username);
+        vals.add(hash(password));
+
+        PostgreSQLDatabase db = new PostgreSQLDatabase();
+
+        int numAffectted = 0;
+        try {
+            db.connect();
+            numAffectted = db.setData(sql, vals);
+            db.close();
+        } catch (DataLayerException dle) {
+            return false;
+        }
+
+        return numAffectted > 0;
+    }
+
     //get from db
     public void fetchAll() throws DataLayerException {
         String sql = "SELECT mediaid FROM user_media WHERE uid = ?";

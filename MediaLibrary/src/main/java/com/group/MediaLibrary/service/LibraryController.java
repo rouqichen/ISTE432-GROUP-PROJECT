@@ -49,7 +49,7 @@ public class LibraryController {
     }
 
     @GetMapping("/library/search/length")
-    public ArrayList<Media> getLibraryByTitle(
+    public ArrayList<Media> getLibraryByLength(
             @RequestParam(value = "userToken") int userToken,
             @RequestParam(value = "max", defaultValue = "" + Integer.MAX_VALUE) int maxLength,
             @RequestParam(value = "mix", defaultValue = "0") int minLength

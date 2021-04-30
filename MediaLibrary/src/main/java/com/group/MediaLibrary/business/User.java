@@ -21,4 +21,18 @@ public class User {
         return "\"loginToken\":" + uid;
     }
 
+    public static String register(String username, String password) {
+        UserDAO dao = new UserDAO();
+
+        try {
+            if(dao.register(username, password)) {
+                return "\"success\":\"User has successfully registered\"";
+            }
+        } catch (DataLayerException dle) {
+
+        }
+
+        return "\"error\":\"The username is taken, or an error has occured\"";
+    }
+
 }

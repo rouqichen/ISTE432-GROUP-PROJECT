@@ -16,4 +16,9 @@ public class UserController {
         return User.login(user.getUsername(), user.getPassword());
     }
 
+    @PostMapping(value = "/register", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public String register(@RequestBody UserRequest user) {
+        return User.register(user.getUsername(), user.getPassword());
+    }
+
 }

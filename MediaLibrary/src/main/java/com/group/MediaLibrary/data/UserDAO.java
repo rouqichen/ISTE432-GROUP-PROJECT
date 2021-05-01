@@ -31,7 +31,7 @@ public class UserDAO {
     public int login(String username, String password) throws DataLayerException {
         //prepare db query
         String sql = "SELECT password, uid FROM lib_user WHERE username LIKE ?";
-        ArrayList<String> vals = new ArrayList<>();
+        ArrayList<Object> vals = new ArrayList<>();
         vals.add(username);
 
         PostgreSQLDatabase db = new PostgreSQLDatabase();
@@ -70,7 +70,7 @@ public class UserDAO {
 
     public boolean register(String username, String password) throws DataLayerException {
         String sql = "INSERT INTO lib_user (username, password) VALUES (?, ?)";
-        ArrayList<String> vals = new ArrayList<>();
+        ArrayList<Object> vals = new ArrayList<>();
         vals.add(username);
         vals.add(hash(password));
 
@@ -91,8 +91,8 @@ public class UserDAO {
     //get from db
     public void fetchAll() throws DataLayerException {
         String sql = "SELECT mediaid FROM user_media WHERE uid = ?";
-        ArrayList<String> vals = new ArrayList<>();
-        vals.add("" + uid);
+        ArrayList<Object> vals = new ArrayList<>();
+        vals.add(uid);
 
         fetch(sql, vals);
 
@@ -104,9 +104,9 @@ public class UserDAO {
                 + "JOIN genre ON genre.genreid = mg.genreid "
                 + "WHERE genre.name LIKE ? "
                 + "AND lib.uid = ?";
-        ArrayList<String> vals = new ArrayList<>();
+        ArrayList<Object> vals = new ArrayList<>();
         vals.add(genre);
-        vals.add("" + uid);
+        vals.add(uid);
 
         fetch(sql, vals);
     }
@@ -116,9 +116,9 @@ public class UserDAO {
                 + "JOIN media ON lib.mediaid = media.mediaid "
                 + "WHERE media.title LIKE ? "
                 + "AND lib.uid = ?";
-        ArrayList<String> vals = new ArrayList<>();
+        ArrayList<Object> vals = new ArrayList<>();
         vals.add("%" + title + "%");
-        vals.add("" + uid);
+        vals.add(uid);
 
         fetch(sql, vals);
     }
@@ -130,17 +130,17 @@ public class UserDAO {
                 + "WHERE (episode_length > ? OR runtime > ?) "
                 + "AND (episode_length < ? OR runtime < ?) "
                 + "AND lib.uid = ?";
-        ArrayList<String> vals = new ArrayList<>();
-        vals.add("" + minLength);
-        vals.add("" + minLength);
-        vals.add("" + maxLength);
-        vals.add("" + maxLength);
-        vals.add("" + uid);
+        ArrayList<Object> vals = new ArrayList<>();
+        vals.add(minLength);
+        vals.add(minLength);
+        vals.add(maxLength);
+        vals.add(maxLength);
+        vals.add(uid);
 
         fetch(sql, vals);
     }
 
-    private void fetch(String sql, ArrayList<String> vals) throws DataLayerException {
+    private void fetch(String sql, ArrayList<Object> vals) throws DataLayerException {
         PostgreSQLDatabase db = new PostgreSQLDatabase();
 
         try {
@@ -160,9 +160,9 @@ public class UserDAO {
 
     public boolean postMediaToLibrary(int mediaId, String location) {
         String sql = "INSERT INTO user_media(uid, mediaid, location) VALUES(?, ?, ?)";
-        ArrayList<String> vals = new ArrayList<>();
-        vals.add("" + getUid());
-        vals.add("" + mediaId);
+        ArrayList<Object> vals = new ArrayList<>();
+        vals.add(getUid());
+        vals.add(mediaId);
         vals.add(location);
 
         PostgreSQLDatabase db = new PostgreSQLDatabase();

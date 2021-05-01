@@ -82,7 +82,7 @@ public class TestPostgreSQLDatabase {
         Mockito.when(mockResultSet.next()).thenReturn(true).thenReturn(true).thenReturn(false);
         Mockito.when(mockResultSet.getString(Mockito.anyInt())).thenReturn("Test Data");
 
-        ArrayList<String> vals = new ArrayList<>();
+        ArrayList<Object> vals = new ArrayList<>();
         vals.add("Test");
 
         ArrayList<ArrayList<String>> arrayList2d = database.getData("SELECT * FROM mocked WHERE column = ?", vals);
@@ -96,7 +96,7 @@ public class TestPostgreSQLDatabase {
 
         Mockito.when(mockPreparedStatement.executeUpdate()).thenReturn(1);
 
-        ArrayList<String> vals = new ArrayList<>();
+        ArrayList<Object> vals = new ArrayList<>();
         vals.add("Test");
         vals.add("Test 2");
 

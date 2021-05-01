@@ -1,6 +1,7 @@
 package com.group.MediaLibrary.business;
 
 import com.group.MediaLibrary.data.*;
+import com.group.MediaLibrary.service.response.MediaResponse;
 
 import java.sql.Date;
 import java.util.GregorianCalendar;
@@ -58,6 +59,20 @@ public class Media {
         //return null if in neither table
         return null;
 
+    }
+
+    public MediaResponse getResponse() {
+        MediaResponse response = new MediaResponse();
+
+        response.setGenres(getGenres());
+        response.setMediaId(getMediaId());
+        response.setDescription(getDescription());
+        response.setRelease(getRelease());
+        response.setImage(getImage());
+        response.setTitle(getTitle());
+        response.setType(getType());
+
+        return response;
     }
 
     //getters and setters

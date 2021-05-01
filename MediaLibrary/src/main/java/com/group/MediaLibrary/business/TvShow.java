@@ -3,6 +3,8 @@ package com.group.MediaLibrary.business;
 import com.group.MediaLibrary.data.DataLayerException;
 import com.group.MediaLibrary.data.MovieDAO;
 import com.group.MediaLibrary.data.TVShowDAO;
+import com.group.MediaLibrary.service.response.MovieResponse;
+import com.group.MediaLibrary.service.response.ShowResponse;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -78,6 +80,24 @@ public class TvShow extends Media {
         }
 
         return true;
+    }
+
+    @Override
+    public ShowResponse getResponse() {
+        ShowResponse response = new ShowResponse();
+
+        response.setGenres(getGenres());
+        response.setMediaId(getMediaId());
+        response.setDescription(getDescription());
+        response.setRelease(getRelease());
+        response.setImage(getImage());
+        response.setTitle(getTitle());
+        response.setType(getType());
+        response.setShowId(getShowId());
+        response.setEpisodeLength(getEpisodeLength());
+        response.setTvRating(getTvRating());
+
+        return response;
     }
 
     /**

@@ -38,8 +38,8 @@ public abstract class MediaDAO {
     public boolean fetchGenres() throws DataLayerException {
 
         String sql = "SELECT name FROM genre JOIN media_genre ON genre.genreid = media_genre.genreid WHERE mediaid = ?";
-        ArrayList<String> vals = new ArrayList<>();
-        vals.add("" + id);
+        ArrayList<Object> vals = new ArrayList<>();
+        vals.add(id);
 
         database.connect();
         ArrayList<ArrayList<String>> rows = database.getData(sql, vals);
@@ -60,8 +60,8 @@ public abstract class MediaDAO {
         database.connect();
 
         String sql = "SELECT * FROM movie WHERE mediaid = ?";
-        ArrayList<String> vals = new ArrayList<>();
-        vals.add("" + id);
+        ArrayList<Object> vals = new ArrayList<>();
+        vals.add(id);
 
         ArrayList<ArrayList<String>> rows = database.getData(sql, vals);
 
@@ -74,8 +74,8 @@ public abstract class MediaDAO {
         database.connect();
 
         String sql = "SELECT * FROM tv_show WHERE mediaid = ?";
-        ArrayList<String> vals = new ArrayList<>();
-        vals.add("" + id);
+        ArrayList<Object> vals = new ArrayList<>();
+        vals.add(id);
 
         ArrayList<ArrayList<String>> rows = database.getData(sql, vals);
 
@@ -134,10 +134,10 @@ public abstract class MediaDAO {
         }
 
         //save to db
-        ArrayList<String> mediaParams = new ArrayList<>();
-        mediaParams.add("" + getId());
+        ArrayList<Object> mediaParams = new ArrayList<>();
+        mediaParams.add(getId());
         mediaParams.add(getTitle());
-        mediaParams.add(getRelease().toString());
+        mediaParams.add(getRelease());
         mediaParams.add(getImage());
         mediaParams.add(getDescription());
 
@@ -159,16 +159,16 @@ public abstract class MediaDAO {
     public boolean saveGenres() throws DataLayerException {
         //foreach genre
         for(String genre: genres) {
-            String genreid;
+            Integer genreid;
             //get id if already in db
-            ArrayList<String> quickCheck = new ArrayList<>();
+            ArrayList<Object> quickCheck = new ArrayList<>();
             quickCheck.add(genre);
 
             ArrayList<ArrayList<String>> res = database.getData("SELECT genreid FROM genre WHERE name = ?", quickCheck);
 
             if(res.size() > 0) {
                 //already in database
-                genreid = res.get(0).get(0);
+                genreid = Integer.parseInt(res.get(0).get(0));
 
             //else add to db
             } else {
@@ -179,8 +179,8 @@ public abstract class MediaDAO {
                     maxGenre = 0;
                 }
 
-                ArrayList<String> addGenre = new ArrayList<>();
-                addGenre.add("" + maxGenre);
+                ArrayList<Object> addGenre = new ArrayList<>();
+                addGenre.add(maxGenre);
                 addGenre.add(genre);
 
                 int r = database.setData("INSERT INTO genre VALUES(?, ?)", addGenre);
@@ -191,16 +191,16 @@ public abstract class MediaDAO {
                 }
 
                 //get id now
-                ArrayList<String> getId = new ArrayList<>();
+                ArrayList<Object> getId = new ArrayList<>();
                 getId.add(genre);
 
                 ArrayList<ArrayList<String>> genreidres = database.getData("SELECT genreid FROM genre WHERE name = ?", getId);
-                genreid = genreidres.get(0).get(0);
+                genreid = Integer.parseInt(genreidres.get(0).get(0));
             }
 
             //finally, save relation to media
-            ArrayList<String> saveGenre = new ArrayList<>();
-            saveGenre.add("" + getId());
+            ArrayList<Object> saveGenre = new ArrayList<>();
+            saveGenre.add(getId());
             saveGenre.add(genreid);
             int r = database.setData("INSERT INTO media_genre VALUES(?, ?)", saveGenre);
 

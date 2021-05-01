@@ -14,7 +14,7 @@ public class PostgreSQLDatabase {
     //genericized error messages
     private static final String EXCEPTIONMESSAGE = "Failure to perform operation";
     private static final String SQLEXCEPTIONMESSAGE = "SQL Engine Failure";
-    private static final String username = "root";
+    private static final String username = "student";
     private static final String password = "student";
     private static final String dbServer = "localhost";
     private static final String dbName = "medialibrary";
@@ -182,7 +182,7 @@ public class PostgreSQLDatabase {
      * @param vals List of values to query with
      * @return ArrayList<ArrayList<String>> 2D ArrayList containing the query results
      */
-    public ArrayList<ArrayList<String>> getData(String query, List<String> vals) throws DataLayerException {
+    public ArrayList<ArrayList<String>> getData(String query, List<Object> vals) throws DataLayerException {
 
         ArrayList<ArrayList<String>> result = new ArrayList<ArrayList<String>>();
         ResultSet rs;
@@ -195,7 +195,13 @@ public class PostgreSQLDatabase {
 
             //insert each string value
             for (int i = 0; i < vals.size(); i++) {
-                statement.setString(i+1, vals.get(i));
+                if(vals.get(i) instanceof String) {
+                    String value = (String) vals.get(i);
+                    statement.setString(i + 1, value);
+                } else if (vals.get(i) instanceof Integer) {
+                    Integer value = (Integer) vals.get(i);
+                    statement.setInt(i + 1, value);
+                }
             }
 
             //perform query
@@ -249,7 +255,7 @@ public class PostgreSQLDatabase {
      * @param updateString SQL String with the DB operation to be performed
      * @return Number of rows of data affected
      */
-    public int setData(String updateString, List<String> vals) throws DataLayerException {
+    public int setData(String updateString, List<Object> vals) throws DataLayerException {
 
         return executeStatement(updateString, vals);
 
@@ -272,7 +278,7 @@ public class PostgreSQLDatabase {
     /**
      *
      */
-    private int executeStatement(String SQLString, List<String> vals) throws DataLayerException {
+    private int executeStatement(String SQLString, List<Object> vals) throws DataLayerException {
         int numAffected = -1;
 
         try {
@@ -280,11 +286,20 @@ public class PostgreSQLDatabase {
 
             //insert each string value
             for(int i = 1, j = 0; j < vals.size(); i++, j++) {
-                if(vals.get(j).equalsIgnoreCase("null")) {
-                    j++;
-                    statement.setNull(i, Integer.parseInt(vals.get(j)));
-                } else {
-                    statement.setString(i, vals.get(j));
+                if(vals.get(j) instanceof String) {
+                    String value = (String) vals.get(j);
+                    if (value.equalsIgnoreCase("null")) {
+                        j++;
+                        statement.setNull(i, Integer.parseInt(value));
+                    } else {
+                        statement.setString(i, value);
+                    }
+                } else if (vals.get(j) instanceof Integer) {
+                    Integer value = (Integer) vals.get(j);
+                    statement.setInt(i, value);
+                } else if (vals.get(j) instanceof Date) {
+                    Date value = (Date) vals.get(j);
+                    statement.setDate(i, value);
                 }
             }
 

@@ -27,8 +27,8 @@ public class TVShowDAO extends MediaDAO {
     public boolean getMedia() throws DataLayerException {
 
         String sql = "SELECT tv.showid, tv.mediaid, md.title, md.release_date, md.image_url, md.description, tv.episode_length, tv.tv_rating FROM tv_show as tv JOIN media as md ON tv.mediaid = md.mediaid WHERE tv.mediaid = ?";
-        ArrayList<String> vals = new ArrayList<>();
-        vals.add("" + getId());
+        ArrayList<Object> vals = new ArrayList<>();
+        vals.add(getId());
 
         return fetch(sql, vals);
     }
@@ -36,13 +36,13 @@ public class TVShowDAO extends MediaDAO {
     public boolean getShow() throws DataLayerException {
 
         String sql = "SELECT tv.showid, tv.mediaid, md.title, md.release_date, md.image_url, md.description, tv.episode_length, tv.tv_rating FROM tv_show as tv JOIN media as md ON tv.mediaid = md.mediaid WHERE tv.showid = ?";
-        ArrayList<String> vals = new ArrayList<>();
-        vals.add("" + getShowid());
+        ArrayList<Object> vals = new ArrayList<>();
+        vals.add(getShowid());
 
         return fetch(sql, vals);
     }
 
-    private boolean fetch(String sql, ArrayList<String> vals) throws DataLayerException {
+    private boolean fetch(String sql, ArrayList<Object> vals) throws DataLayerException {
         fetchGenres();
 
         database.connect();
@@ -84,10 +84,10 @@ public class TVShowDAO extends MediaDAO {
         }
 
         //save to db
-        ArrayList<String> tvParams = new ArrayList<>();
-        tvParams.add("" + getShowid());
-        tvParams.add("" + getId());
-        tvParams.add("" + getEpisodeLength());
+        ArrayList<Object> tvParams = new ArrayList<>();
+        tvParams.add(getShowid());
+        tvParams.add(getId());
+        tvParams.add(getEpisodeLength());
         tvParams.add(getTvRating());
 
         int r = database.setData("INSERT INTO tv_show VALUES (?, ?, ?, ?)", tvParams);

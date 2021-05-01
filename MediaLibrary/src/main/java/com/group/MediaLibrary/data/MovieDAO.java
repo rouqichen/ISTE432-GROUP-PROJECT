@@ -27,8 +27,8 @@ public class MovieDAO extends MediaDAO{
     public boolean getMedia() throws DataLayerException {
 
         String sql = "SELECT mv.movieid, mv.mediaid, md.title, md.release_date, md.image_url, md.description, mv.runtime, mv.mpaa_rating FROM movie as mv JOIN media as md ON mv.mediaid = md.mediaid WHERE mv.mediaid = ?";
-        ArrayList<String> vals = new ArrayList<>();
-        vals.add("" + getId());
+        ArrayList<Object> vals = new ArrayList<>();
+        vals.add(getId());
 
         return fetch(sql, vals);
     }
@@ -36,8 +36,8 @@ public class MovieDAO extends MediaDAO{
     public boolean getMovie() throws DataLayerException {
 
         String sql = "SELECT mv.movieid, mv.mediaid, md.title, md.release_date, md.image_url, md.description, mv.runtime, mv.mpaa_rating FROM movie as mv JOIN media as md ON mv.mediaid = md.mediaid WHERE mv.movieid = ?";
-        ArrayList<String> vals = new ArrayList<>();
-        vals.add("" + getMovieid());
+        ArrayList<Object> vals = new ArrayList<>();
+        vals.add(getMovieid());
 
         return fetch(sql, vals);
     }
@@ -50,7 +50,7 @@ public class MovieDAO extends MediaDAO{
      * @return Success
      * @throws DataLayerException
      */
-    private boolean fetch(String sql, ArrayList<String> vals) throws DataLayerException  {
+    private boolean fetch(String sql, ArrayList<Object> vals) throws DataLayerException  {
         //run query
         database.connect();
         ArrayList<ArrayList<String>> rows = database.getData(sql, vals);
@@ -96,10 +96,10 @@ public class MovieDAO extends MediaDAO{
         }
 
         //save to db
-        ArrayList<String> movieParams = new ArrayList<>();
-        movieParams.add("" + getMovieid());
-        movieParams.add("" + getId());
-        movieParams.add("" + getRuntime());
+        ArrayList<Object> movieParams = new ArrayList<>();
+        movieParams.add(getMovieid());
+        movieParams.add(getId());
+        movieParams.add(getRuntime());
         movieParams.add(getMpaaRating());
 
         int r = database.setData("INSERT INTO movie VALUES (?, ?, ?, ?)", movieParams);

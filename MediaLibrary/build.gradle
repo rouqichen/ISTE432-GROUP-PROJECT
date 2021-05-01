@@ -17,6 +17,7 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'com.squareup.okhttp3:okhttp:4.9.0'
 	implementation 'org.json:json:20210307'
+	implementation 'org.postgresql:postgresql:42.2.19'
 }
 
 test {

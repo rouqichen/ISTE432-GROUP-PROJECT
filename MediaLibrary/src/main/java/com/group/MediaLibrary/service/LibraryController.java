@@ -6,6 +6,7 @@ import com.group.MediaLibrary.business.Movie;
 import com.group.MediaLibrary.business.TvShow;
 import com.group.MediaLibrary.service.request.MovieRequest;
 import com.group.MediaLibrary.service.request.ShowRequest;
+import com.group.MediaLibrary.service.response.MediaResponse;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
@@ -16,11 +17,11 @@ import java.util.ArrayList;
 public class LibraryController {
 
     @GetMapping("/library")
-    public ArrayList<Media> getFullLibrary(@RequestParam(value = "userToken") int userToken) {
+    public ArrayList<MediaResponse> getFullLibrary(@RequestParam(value = "userToken") int userToken) {
 
         Library library = new Library(userToken);
         library.loadLibrary();
-        return library.getLibrary();
+        return library.getLibraryResponse();
 
     }
 
@@ -74,7 +75,9 @@ public class LibraryController {
             movie.setRuntime(movieRequest.getRuntime());
             movie.setMpaaRating(movieRequest.getMpaaRating());
             movie.setGenres(movieRequest.getGenres());
-            movie.setRelease(Date.valueOf(movieRequest.getRelease()));
+            if(null != movieRequest.getRelease()) {
+                movie.setRelease(Date.valueOf(movieRequest.getRelease()));
+            }
             movie.setImage(movieRequest.getImage());
             movie.setDescription(movieRequest.getDescription());
 

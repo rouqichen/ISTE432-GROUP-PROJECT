@@ -2,10 +2,14 @@ package com.group.MediaLibrary.business;
 
 import com.group.MediaLibrary.data.DataLayerException;
 import com.group.MediaLibrary.data.MovieDAO;
+import com.group.MediaLibrary.service.response.MediaResponse;
+import com.group.MediaLibrary.service.response.MovieResponse;
 import okhttp3.*;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
 import java.sql.Date;
@@ -17,6 +21,8 @@ public class Movie extends Media {
     private int movieid;
     private int runtime;
     private String mpaaRating;
+
+    private static final Logger logger = LoggerFactory.getLogger(Movie.class);
 
     public Movie(int id, int mediaId) {
         super(mediaId);
@@ -89,6 +95,24 @@ public class Movie extends Media {
         return true;
     }
 
+    @Override
+    public MovieResponse getResponse() {
+        MovieResponse response = new MovieResponse();
+
+        response.setGenres(getGenres());
+        response.setMediaId(getMediaId());
+        response.setDescription(getDescription());
+        response.setRelease(getRelease());
+        response.setImage(getImage());
+        response.setTitle(getTitle());
+        response.setType(getType());
+        response.setMovieid(getMovieId());
+        response.setRuntime(getRuntime());
+        response.setMpaaRating(getMpaaRating());
+
+        return response;
+    }
+
     /**
      * Verify set details, fills in missing details from IMDB
      * @return If details are valid
@@ -100,7 +124,7 @@ public class Movie extends Media {
         }
 
         //if any missing, get from IMDB
-        if(getGenres().size() < 1 || null == getRelease() || null == getImage() || "".equals(getImage()) ||
+        if(null == getGenres() || getGenres().size() < 1 || null == getRelease() || null == getImage() || "".equals(getImage()) ||
                 null == getDescription() || "".equals(getDescription()) || runtime < 1 ||
                 null == getMpaaRating() || "".equals(getMpaaRating())) {
 
@@ -111,7 +135,7 @@ public class Movie extends Media {
             JSONObject imdbResults = getImdbMovie(imdbId);
 
             //genres
-            if(getGenres().size() < 1) {
+            if(null == getGenres() || getGenres().size() < 1) {
                 ArrayList<String> genres = new ArrayList<>();
 
                 JSONArray genresJson = imdbResults.getJSONArray("genreList");
@@ -183,7 +207,11 @@ public class Movie extends Media {
         }
 
         //get JSONObject
-        return new JSONObject(response.body().toString());
+        try {
+            return new JSONObject(response.body().string());
+        } catch (IOException ioe) {
+            return null;
+        }
     }
 
     /**
@@ -216,10 +244,16 @@ public class Movie extends Media {
         }
 
         //get id for first result
-        return new JSONObject(response.body().toString())
-                .getJSONArray("results")
-                .getJSONObject(0)
-                .getString("id");
+        try {
+            JSONObject json = new JSONObject(response.body().string());
+            logger.info("Response:" + json.toString());
+            return json
+                    .getJSONArray("results")
+                    .getJSONObject(0)
+                    .getString("id");
+        } catch (IOException ioe) {
+            return null;
+        }
     }
 
     public int getMovieId() {

@@ -4,6 +4,9 @@ import com.group.MediaLibrary.data.DataLayerException;
 import com.group.MediaLibrary.data.MovieDAO;
 import com.group.MediaLibrary.data.TVShowDAO;
 import com.group.MediaLibrary.data.UserDAO;
+import com.group.MediaLibrary.service.response.MediaResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.ArrayList;
 
@@ -11,6 +14,8 @@ public class Library {
 
     private int userId;
     private ArrayList<Media> library;
+
+    private static final Logger logger = LoggerFactory.getLogger(Movie.class);
 
     public Library(int userId) {
 
@@ -110,8 +115,8 @@ public class Library {
     private void loadMediaFromUserDAO(UserDAO user) {
         ArrayList<Integer> mediaIds = user.getOwnedMedia();
         for(Integer mediaId: mediaIds) {
-            Media media = new Media(mediaId);
-            library.add(media.getTypeMedia());
+            Media media = new Media(mediaId).getTypeMedia();
+            library.add(media);
         }
     }
 
@@ -145,7 +150,7 @@ public class Library {
 
         //save to user library
         UserDAO user = new UserDAO(userId);
-        return user.postMediaToLibrary(movie.getMediaId(), location);
+        return user.postMediaToLibrary(movieDAO.getId(), location);
     }
 
     /**
@@ -237,5 +242,15 @@ public class Library {
 
     public void setLibrary(ArrayList<Media> library) {
         this.library = library;
+    }
+
+    public ArrayList<MediaResponse> getLibraryResponse() {
+        ArrayList<MediaResponse> responses = new ArrayList<>();
+
+        for(Media media: getLibrary()) {
+            responses.add(media.getResponse());
+        }
+
+        return responses;
     }
 }

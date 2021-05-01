@@ -2,10 +2,68 @@
 <html>
   <head>
     <title><%= title %></title>
+    <script>
+      function openForm() {
+        document.getElementById("login1").style.display = "none";
+        document.getElementById("name").style.display = "none";
+        document.getElementById("myForm").style.display = "block";
+        document.getElementById("button").style.display = "none";
+      }
+      
+      function closeForm() {
+        document.getElementById("login1").style.display = "block";
+        document.getElementById("name").style.display = "block";
+        document.getElementById("myForm").style.display = "none";
+        document.getElementById("button").style.display = "block";
+      }
+      </script>
     <link rel='stylesheet' href='/stylesheets/style.css' />
   </head>
   <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
+    <div class="login">
+      <h2 id="name">Login</h2>
+        <form id = "login1" method="POST" action="/login">
+          <label>Name</label>
+          <br>
+          <input type="text" name="name" id="name" required />
+          <br>
+          <label>Password</label>
+          <br>
+          <input type="password" name="password" id="pass" required />
+          <br>
+            <br>
+  
+          <input type="submit" name="submit" class="button" value="Login" />
+          <br>
+          
+  
+  
+        </form>
+
+        <button class="open-button" id = "button" onclick="openForm()">Register</button>
+
+        <div class="form-popup" id="myForm">
+        <form method="POST" action="/register">
+          <h1>Register</h1>
+          <label>Name</label>
+          <br>
+          <input type="text" name="name" id="name" required />
+          <br>
+          <label>Password</label>
+          <br>
+          <input type="password" name="password" id="pass" required />
+          <br>
+            <br>
+  
+          <input type="submit" name="submit" class="button" value="Login" />
+          <button type="button" class="button" onclick="closeForm()">Close</button>
+          <br>
+          
+  
+  
+        </form>
+        </div>
+        </div>
   </body>
 </html>
+

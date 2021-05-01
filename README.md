@@ -704,6 +704,8 @@ To unit test sections of our code we are using JUnit and Mockito. JUnit is a com
 
 ## Deployment & Packaging
 
+### Backend
+
 1. Download and install PostgreSQL
 
 The code here uses user 'root' and password 'student', though these can be whatever you like
@@ -738,3 +740,15 @@ Or you can build a jar using ```gradlew bootJar``` and then deploy/run the jar
 7. Finish
 
 The application will be hosted on port 8080, errors can be found in a log file log.txt
+
+### Frontend
+
+1. cd into projectDirectory/FrontEnd
+
+2. Install dependencies with ```npm install```
+
+3. Run application with ```npm start```
+
+4. Application live at http://localhost:3000/
+
+5. You can log into a test user with username 'test' and password 'password'

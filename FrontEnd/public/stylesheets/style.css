@@ -104,8 +104,17 @@ body {font-family: Arial, Helvetica, sans-serif;}
 /* Library cards */
 .media-card {
   float: left;
-  max-width: 500px;
+  max-width: 550px;
   max-height: fit-content;
+  transition: all 0.4s;
+  box-shadow: 5px 5px 30px rgba(0,0,0, 0.5);
+  margin: 2em;
+}
+
+.media-card:hover {
+  transform: scale(1.02);
+  transition: all 0.4s;
+  box-shadow: 5px 5px 80px rgba(0,0,0, 0.5);
 }
 
 .media-image img {
@@ -119,4 +128,6 @@ body {font-family: Arial, Helvetica, sans-serif;}
 
 .media-details {
   float:left;
+  max-width: 350px;
+  padding: 20px;
 }

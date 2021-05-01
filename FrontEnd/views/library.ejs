@@ -16,10 +16,14 @@
             <div class="media-details">
                 <p><%= media.title %></p>
                 <p><%= media.release %></p>
-                <p><%= media.description %></p>
+                <p><%= media.description.substr(0, Math.min(200, media.description.length)) %>...</p>
                 <% if (media.type == 'movie') { %>
                 <p>Rating: <%= media.mpaaRating %></p>
-                <p>Runtime: <%= media.runtime %></p>
+                <p>Runtime: <%= media.runtime %> minutes</p>
+                <% } %>
+                <% if (media.type == 'tvshow') { %>
+                <p>Rating: <%= media.tvRating %></p>
+                <p>Episode Length: <%= media.episodeLength %> minutes</p>
                 <% } %>
             </div>
         </div>

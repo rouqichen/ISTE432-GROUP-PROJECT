@@ -9,7 +9,20 @@
     <p>Welcome to <%= title %></p>
 
     <% library.forEach(function(media) { %>
-        <p><%= media.title %></p>
+        <div class="media-card">
+            <div class="media-image">
+                <img src="<%= media.image %>">
+            </div>
+            <div class="media-details">
+                <p><%= media.title %></p>
+                <p><%= media.release %></p>
+                <p><%= media.description %></p>
+                <% if (media.type == 'movie') { %>
+                <p>Rating: <%= media.mpaaRating %></p>
+                <p>Runtime: <%= media.runtime %></p>
+                <% } %>
+            </div>
+        </div>
     <% }); %>
   </body>
 </html>

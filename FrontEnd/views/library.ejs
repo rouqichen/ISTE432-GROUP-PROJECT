@@ -6,7 +6,6 @@
   </head>
   <body>
     <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
 
     <% library.forEach(function(media) { %>
         <div class="media-card">
@@ -25,6 +24,8 @@
                 <p>Rating: <%= media.tvRating %></p>
                 <p>Episode Length: <%= media.episodeLength %> minutes</p>
                 <% } %>
+
+                <p>Owned On: <%= media.location %></p>
             </div>
         </div>
     <% }); %>

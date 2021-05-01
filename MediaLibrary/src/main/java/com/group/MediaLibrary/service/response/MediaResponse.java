@@ -13,6 +13,7 @@ public class MediaResponse {
     private String image;
     private String description;
     private String type;
+    private String location;
 
     public List<String> getGenres() {
         return genres;
@@ -68,5 +69,13 @@ public class MediaResponse {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 }

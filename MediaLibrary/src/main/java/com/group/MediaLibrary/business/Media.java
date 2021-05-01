@@ -17,6 +17,7 @@ public class Media {
     private String image;
     private String description;
     private String type;
+    private String location;
 
     public Media(int mediaId) {
         this.mediaId = mediaId;
@@ -71,8 +72,23 @@ public class Media {
         response.setImage(getImage());
         response.setTitle(getTitle());
         response.setType(getType());
+        response.setLocation(getLocation());
 
         return response;
+    }
+
+    public boolean fetchLocation(int uid) {
+        MediaDAO dao = new GenericMediaDAO(mediaId);
+
+        try {
+            if (dao.fetchLocation(uid)) {
+                setLocation(dao.getLocation());
+            }
+        } catch (DataLayerException dle) {
+            return false;
+        }
+
+        return true;
     }
 
     //getters and setters
@@ -130,5 +146,13 @@ public class Media {
 
     public void setType(String type) {
         this.type = type;
+    }
+
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
     }
 }

@@ -46,6 +46,7 @@ public class TvShow extends Media {
                 setEpisodeLength(dao.getEpisodeLength());
                 setTvRating(dao.getTvRating());
                 setGenres(dao.getGenres());
+                setLocation(dao.getLocation());
             } else {
                 return false;
             }
@@ -73,6 +74,7 @@ public class TvShow extends Media {
                 setTvRating(dao.getTvRating());
                 setGenres(dao.getGenres());
                 setMediaId(dao.getId());
+                setLocation(dao.getLocation());
             } else {
                 return false;
             }
@@ -94,6 +96,7 @@ public class TvShow extends Media {
         response.setImage(getImage());
         response.setTitle(getTitle());
         response.setType(getType());
+        response.setLocation(getLocation());
         response.setShowId(getShowId());
         response.setEpisodeLength(getEpisodeLength());
         response.setTvRating(getTvRating());

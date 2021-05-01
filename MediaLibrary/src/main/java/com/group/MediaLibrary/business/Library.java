@@ -116,6 +116,7 @@ public class Library {
         ArrayList<Integer> mediaIds = user.getOwnedMedia();
         for(Integer mediaId: mediaIds) {
             Media media = new Media(mediaId).getTypeMedia();
+            media.fetchLocation(getUserId());
             library.add(media);
         }
     }

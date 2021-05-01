@@ -106,6 +106,7 @@ public class Movie extends Media {
         response.setImage(getImage());
         response.setTitle(getTitle());
         response.setType(getType());
+        response.setLocation(getLocation());
         response.setMovieid(getMovieId());
         response.setRuntime(getRuntime());
         response.setMpaaRating(getMpaaRating());

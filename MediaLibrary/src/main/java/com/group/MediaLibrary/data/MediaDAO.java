@@ -15,6 +15,7 @@ public abstract class MediaDAO {
     Date release;
     String image;
     String description;
+    String location;
     PostgreSQLDatabase database;
 
     //constructors
@@ -52,6 +53,25 @@ public abstract class MediaDAO {
         }
 
         setGenres(genres);
+
+        return true;
+    }
+
+    public boolean fetchLocation(int uid) throws DataLayerException {
+        String sql = "SELECT location FROM user_media WHERE mediaid = ? AND uid = ?";
+        ArrayList<Object> vals = new ArrayList<>();
+        vals.add(id);
+        vals.add(uid);
+
+        try {
+            database.connect();
+            ArrayList<ArrayList<String>> rows = database.getData(sql, vals);
+            database.close();
+
+            setLocation(rows.get(0).get(0));
+        } catch (DataLayerException dle) {
+            return false;
+        }
 
         return true;
     }
@@ -268,4 +288,11 @@ public abstract class MediaDAO {
         this.description = description;
     }
 
+    public String getLocation() {
+        return location;
+    }
+
+    public void setLocation(String location) {
+        this.location = location;
+    }
 }

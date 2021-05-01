@@ -203,16 +203,12 @@ public class UserDAO {
      * @throws DataLayerException
      */
     public static String hash(String password) throws DataLayerException {
-        SecureRandom random = new SecureRandom();
-        byte[] salt = new byte[16];
-        random.nextBytes(salt);
         MessageDigest md;
         try {
             md = MessageDigest.getInstance("SHA-512");
         } catch (NoSuchAlgorithmException nsae) {
             throw new DataLayerException(nsae);
         }
-        md.update(salt);
         byte[] hashedPassByte = md.digest(password.getBytes(StandardCharsets.UTF_8));
         return Base64.getEncoder().encodeToString(hashedPassByte);
     }

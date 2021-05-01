@@ -109,7 +109,9 @@ public class LibraryController {
             show.setEpisodeLength(showRequest.getEpisodeLength());
             show.setTvRating(showRequest.getTvRating());
             show.setGenres(showRequest.getGenres());
-            show.setRelease(Date.valueOf(showRequest.getRelease()));
+            if(null != showRequest.getRelease()) {
+                show.setRelease(Date.valueOf(showRequest.getRelease()));
+            }
             show.setImage(showRequest.getImage());
             show.setDescription(showRequest.getDescription());
 

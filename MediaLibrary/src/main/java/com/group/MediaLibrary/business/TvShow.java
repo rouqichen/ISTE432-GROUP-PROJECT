@@ -72,6 +72,7 @@ public class TvShow extends Media {
                 setEpisodeLength(dao.getEpisodeLength());
                 setTvRating(dao.getTvRating());
                 setGenres(dao.getGenres());
+                setMediaId(dao.getId());
             } else {
                 return false;
             }
@@ -111,7 +112,7 @@ public class TvShow extends Media {
         }
 
         //if any missing, get from IMDB
-        if(getGenres().size() < 1 || null == getRelease() || null == getImage() || "".equals(getImage()) ||
+        if(null == getGenres() || getGenres().size() < 1 || null == getRelease() || null == getImage() || "".equals(getImage()) ||
                 null == getDescription() || "".equals(getDescription()) || getEpisodeLength() < 1 ||
                 null == getTvRating() || "".equals(getTvRating())) {
 
@@ -122,7 +123,7 @@ public class TvShow extends Media {
             JSONObject imdbResults = getImdbSeries(imdbId);
 
             //genres
-            if(getGenres().size() < 1) {
+            if(null == getGenres() || getGenres().size() < 1) {
                 ArrayList<String> genres = new ArrayList<>();
 
                 JSONArray genresJson = imdbResults.getJSONArray("genreList");
@@ -194,7 +195,11 @@ public class TvShow extends Media {
         }
 
         //get JSONObject
-        return new JSONObject(response.body().toString());
+        try {
+            return new JSONObject(response.body().string());
+        } catch (IOException ioe) {
+            return null;
+        }
     }
 
     /**
@@ -227,10 +232,15 @@ public class TvShow extends Media {
         }
 
         //get id for first result
-        return new JSONObject(response.body().toString())
-                .getJSONArray("results")
-                .getJSONObject(0)
-                .getString("id");
+        try {
+            JSONObject json = new JSONObject(response.body().string());
+            return json
+                    .getJSONArray("results")
+                    .getJSONObject(0)
+                    .getString("id");
+        } catch (IOException ioe) {
+            return null;
+        }
     }
 
 

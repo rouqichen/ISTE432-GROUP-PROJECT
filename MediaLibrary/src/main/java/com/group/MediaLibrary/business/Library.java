@@ -183,7 +183,7 @@ public class Library {
 
         //save to user library
         UserDAO user = new UserDAO(userId);
-        return user.postMediaToLibrary(show.getMediaId(), location);
+        return user.postMediaToLibrary(showDAO.getId(), location);
     }
 
     /**

@@ -59,6 +59,7 @@ public class TVShowDAO extends MediaDAO {
 
         ArrayList<String> tvValues = rows.get(0);
         setShowid(Integer.parseInt(tvValues.get(0)));
+        setId(Integer.parseInt(tvValues.get(1)));
         setTitle(tvValues.get(2));
         setRelease(Date.valueOf(tvValues.get(3)));
         setImage(tvValues.get(4));

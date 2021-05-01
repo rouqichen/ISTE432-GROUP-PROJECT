@@ -11,14 +11,14 @@ public class User {
         try {
             uid = dao.login(username, password);
         } catch (DataLayerException dle) {
-            return "\"error\":\"A server error has occured attempting to log in\"";
+            return "{\"error\":\"A server error has occured attempting to log in\"}";
         }
 
         if (uid == -1) {
-            return "\"error\":\"Invalid username and/or password\"";
+            return "{\"error\":\"Invalid username and/or password\"}";
         }
 
-        return "\"loginToken\":" + uid;
+        return "{\"loginToken\":" + uid + "}";
     }
 
     public static String register(String username, String password) {
@@ -26,13 +26,13 @@ public class User {
 
         try {
             if(dao.register(username, password)) {
-                return "\"success\":\"User has successfully registered\"";
+                return "{\"success\":\"User has successfully registered\"}";
             }
         } catch (DataLayerException dle) {
 
         }
 
-        return "\"error\":\"The username is taken, or an error has occured\"";
+        return "{\"error\":\"The username is taken, or an error has occured\"}";
     }
 
 }

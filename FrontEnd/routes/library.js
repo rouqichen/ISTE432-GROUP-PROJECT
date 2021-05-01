@@ -8,9 +8,10 @@ router.get('/', function(req, res, next) {
     var userToken;
     if(req.session.userToken) {
         userToken = req.session.userToken;
+        console.log("User token from session: " + userToken);
     } else {
-        userToken = 1;
-        //res.redirect('../users/');
+        console.log("No user token stored in session: " + req.session.userToken);
+        res.redirect('../');
     }
     
     var libraryBody

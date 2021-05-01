@@ -16,9 +16,14 @@ router.post('/login', function(req, res, next) {
   var password = req.body.password;
   console.log(username);
 
-  axios.post('http://localhost:8080/login' + userToken).then(function (backendResponse) {
-    console.log(username);
-});
+  axios.post('http://localhost:8080/login', {
+    "username": username,
+    "password": password
+  }).then(function (backendResponse) {
+    console.log(backendResponse.data);
+    req.session.userToken = backendResponse.data.loginToken;
+    res.redirect('../library');
+  });
 });
 
 router.post('/register', function(req, res, next) {

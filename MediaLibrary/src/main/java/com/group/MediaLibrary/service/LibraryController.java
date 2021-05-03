@@ -82,16 +82,16 @@ public class LibraryController {
             movie.setDescription(movieRequest.getDescription());
 
             if (library.saveNewMovie(movie, movieRequest.getLocation())) {
-                return "\"success\":\"" + movie.getTitle() + " has been added to your library\"";
+                return "{\"success\":\"" + movie.getTitle() + " has been added to your library\"}";
             } else {
-                return "\"error\":\"Error saving " + movieRequest.getTitle() + " to your library\"";
+                return "{\"error\":\"Error saving " + movieRequest.getTitle() + " to your library\"}";
             }
         //adding a known movie already in database
         } else {
             if (library.saveExistingMovie(new Movie(movieRequest.getMovieid()), movieRequest.getLocation())) {
-                return "\"success\":\"" + movieRequest.getTitle() + " has been added to your library\"";
+                return "{\"success\":\"" + movieRequest.getTitle() + " has been added to your library\"}";
             } else {
-                return "\"error\":\"Error saving " + movieRequest.getTitle() + " to your library\"";
+                return "{\"error\":\"Error saving " + movieRequest.getTitle() + " to your library\"}";
             }
         }
     }
@@ -116,16 +116,16 @@ public class LibraryController {
             show.setDescription(showRequest.getDescription());
 
             if (library.saveNewShow(show, showRequest.getLocation())) {
-                return "\"success\":\"" + show.getTitle() + " has been added to your library\"";
+                return "{\"success\":\"" + show.getTitle() + " has been added to your library\"}";
             } else {
-                return "\"error\":\"Error saving " + showRequest.getTitle() + " to your library\"";
+                return "{\"error\":\"Error saving " + showRequest.getTitle() + " to your library\"}";
             }
             //adding a known show already in database
         } else {
             if (library.saveExistingShow(new TvShow(showRequest.getShowId()), showRequest.getLocation())) {
-                return "\"success\":\"" + showRequest.getTitle() + " has been added to your library\"";
+                return "{\"success\":\"" + showRequest.getTitle() + " has been added to your library\"}";
             } else {
-                return "\"error\":\"Error saving " + showRequest.getTitle() + " to your library\"";
+                return "{\"error\":\"Error saving " + showRequest.getTitle() + " to your library\"}";
             }
         }
     }

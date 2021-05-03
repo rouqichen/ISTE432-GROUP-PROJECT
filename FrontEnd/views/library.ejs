@@ -6,6 +6,10 @@
   </head>
   <body>
     <h1><%= title %></h1>
+    <div class="controls">
+      <a href="./library/save?type=movie"><span class="button">Save A Movie</span></a>
+      <a href="./library/save?type=show"><span class="button">Save A Show</span></a>
+    </div>
 
     <% library.forEach(function(media) { %>
         <div class="media-card">

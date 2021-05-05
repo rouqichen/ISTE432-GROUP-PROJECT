@@ -9,6 +9,10 @@
     <div class="controls">
       <a href="./library/save?type=movie"><span class="button">Save A Movie</span></a>
       <a href="./library/save?type=show"><span class="button">Save A Show</span></a>
+      <form action="/library" method="GET" class="search-form">
+        <input type="text" name="search" id="search">
+        <input type="submit" name="submit" value="Search" />
+      </form>
     </div>
 
     <% library.forEach(function(media) { %>

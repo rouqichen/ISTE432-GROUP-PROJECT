@@ -5,6 +5,7 @@ const axios = require('axios');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
+    //redirect if not logged in
     var userToken;
     if(req.session.userToken) {
         userToken = req.session.userToken;
@@ -13,14 +14,24 @@ router.get('/', function(req, res, next) {
         console.log("No user token stored in session: " + req.session.userToken);
         res.redirect('../');
     }
-    
-    var libraryBody
-    axios.get('http://localhost:8080/library?userToken=' + userToken).then(function (backendResponse) {
-        libraryBody = backendResponse.data;
-        console.log(libraryBody);
-        res.render('library', { title: 'Library', library: libraryBody});
-    });
 
+    //if set, run search
+    if(req.query.search) {
+        
+        axios.get('http://localhost:8080/library/search/title?userToken=' + userToken + '&title=' + req.query.search).then(function (backendResponse) {
+            var libraryBody = backendResponse.data;
+            console.log(libraryBody);
+            res.render('library', { title: 'Library', library: libraryBody});
+        });
+
+    //otherwise return full library
+    } else {
+        axios.get('http://localhost:8080/library?userToken=' + userToken).then(function (backendResponse) {
+            var libraryBody = backendResponse.data;
+            console.log(libraryBody);
+            res.render('library', { title: 'Library', library: libraryBody});
+        });
+    }
     
 });
 

@@ -26,31 +26,31 @@ public class LibraryController {
     }
 
     @GetMapping("/library/search/genre")
-    public ArrayList<Media> getLibraryByGenre(
+    public ArrayList<MediaResponse> getLibraryByGenre(
             @RequestParam(value = "userToken") int userToken,
             @RequestParam(value = "genre") String genre
     ) {
 
         Library library = new Library(userToken);
         library.loadLibraryByGenre(genre);
-        return library.getLibrary();
+        return library.getLibraryResponse();
 
     }
 
     @GetMapping("/library/search/title")
-    public ArrayList<Media> getLibraryByTitle(
+    public ArrayList<MediaResponse> getLibraryByTitle(
             @RequestParam(value = "userToken") int userToken,
             @RequestParam(value = "title") String title
     ) {
 
         Library library = new Library(userToken);
         library.loadLibraryByTitle(title);
-        return library.getLibrary();
+        return library.getLibraryResponse();
 
     }
 
     @GetMapping("/library/search/length")
-    public ArrayList<Media> getLibraryByLength(
+    public ArrayList<MediaResponse> getLibraryByLength(
             @RequestParam(value = "userToken") int userToken,
             @RequestParam(value = "max", defaultValue = "" + Integer.MAX_VALUE) int maxLength,
             @RequestParam(value = "mix", defaultValue = "0") int minLength
@@ -58,7 +58,7 @@ public class LibraryController {
 
         Library library = new Library(userToken);
         library.loadLibraryByLength(minLength, maxLength);
-        return library.getLibrary();
+        return library.getLibraryResponse();
 
     }
 
